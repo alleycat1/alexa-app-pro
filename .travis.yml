@@ -1,0 +1,26 @@
+sudo: false
+language: node_js
+cache: yarn
+
+node_js:
+  - 10
+  - 11
+  - 12
+
+before_install:
+  - yarn config set spin false
+
+install:
+  - yarn
+
+script:
+  - yarn danger ci
+  - yarn lint
+  - yarn test-with-coverage
+  - yarn dtslint
+
+after_success:
+  - cat ./coverage/lcov.info | yarn coveralls
+
+notifications:
+  email: false
